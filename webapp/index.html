@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskTrackerRPG</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: white;
+        }
+        .container {
+            text-align: center;
+        }
+        .user-info {
+            background-color: #2b2b2b;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .level {
+            font-size: 24px;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+        .xp-bar {
+            width: 100%;
+            height: 30px;
+            background-color: #444;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .xp-progress {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 30%;
+            transition: width 0.3s ease;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .stat-box {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 TaskTrackerRPG</h1>
+        
+        <div class="user-info">
+            <div id="username">Загрузка...</div>
+            <div class="level">Уровень: <span id="level">1</span></div>
+            
+            <div class="xp-bar">
+                <div class="xp-progress" id="xp-progress"></div>
+            </div>
+            <div>XP: <span id="current-xp">0</span> / <span id="max-xp">100</span></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div>💰 Монеты</div>
+                <div id="coins">0</div>
+            </div>
+            <div class="stat-box">
+                <div>📋 Задачи</div>
+                <div id="tasks">0</div>
+            </div>
+            <div class="stat-box">
+                <div>🔥 Серия дней</div>
+                <div id="streak">0</div>
+            </div>
+            <div class="stat-box">
+                <div>😊 Настроение</div>
+                <div id="mood">Нейтрально</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // Получаем данные пользователя
+        const user = tg.initDataUnsafe.user;
+        
+        if (user) {
+            document.getElementById('username').textContent = 
+                user.first_name + (user.last_name ? ' ' + user.last_name : '');
+        }
+
+        // Тестовые данные (потом заменим на реальные из БД)
+        const testData = {
+            level: 5,
+            currentXp: 320,
+            maxXp: 500,
+            coins: 150,
+            tasks: 12,
+            streak: 3,
+            mood: "Хорошо"
+        };
+
+        // Обновляем интерфейс
+        document.getElementById('level').textContent = testData.level;
+        document.getElementById('current-xp').textContent = testData.currentXp;
+        document.getElementById('max-xp').textContent = testData.maxXp;
+        document.getElementById('coins').textContent = testData.coins;
+        document.getElementById('tasks').textContent = testData.tasks;
+        document.getElementById('streak').textContent = testData.streak;
+        document.getElementById('mood').textContent = testData.mood;
+
+        // Прогресс бар XP
+        const xpPercent = (testData.currentXp / testData.maxXp) * 100;
+        document.getElementById('xp-progress').style.width = xpPercent + '%';
+    </script>
+</body>
+</html>
