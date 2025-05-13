@@ -2,6 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher, Router, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from bot.db import init_db
 from config import BOT_TOKEN, WEBAPP_URL
 
 router = Router()
@@ -21,6 +22,7 @@ async def cmd_start(message: types.Message):
     )
 
 async def main():
+    await init_db()
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
     dp.include_router(router)
